@@ -2,10 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>HelloVue</title>
     <script src="../js/vue.js"></script>
 </head>
 <body>
-
+    <div id="root">
+        <!--这里就是使用了插值语法-->
+        <h1>Hello, {{name}}</h1>
+        <!-- 这里使用了指令语法,:是v-bind:的缩写-->
+        <a :href="address" target="_blank">点击立即学习Vue</a>
+    </div>
 </body>
+
+<script type="text/javascript">
+    // 阻止 vue 在启动时生成生产提示。
+    Vue.config.productionTip = false
+
+    new Vue({
+        el: '#root', // 找到对应的容器，并接管
+        data: {
+            name: 'Vue',
+            address: 'https://cn.vuejs.org/'
+        }
+    })
+</script>
 </html>
