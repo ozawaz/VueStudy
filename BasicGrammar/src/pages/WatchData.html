@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监视属性</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<!--
+监视属性watch：
+    1.当被监视的属性变化时, 回调函数自动调用, 进行相关操作
+    2.监视的属性必须存在，才能进行监视！！
+    3.监视的两种写法：
+            (1).new Vue时传入watch配置
+            (2).通过vm.$watch监视
+
+深度监视：
+        (1).Vue中的watch默认不监测对象内部值的改变（一层）。
+        (2).配置deep:true可以监测对象内部值改变（多层）。
+备注：
+        (1).Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以！
+        (2).使用watch时根据数据的具体结构，决定是否采用深度监视。
+-->
+
+<div id="root">
+    <h1>今天天气很{{weather}}</h1>
+    <button @click="isHot = !isHot">点击改变天气</button>
+    <h1>名称叫{{fullName}}</h1>
+    <button @click="name.first = name.first === '张' ? '李' : '张'">点击改变姓名</button>
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
+
+    const vm = new Vue({
+        el: '#root',
+        data: {
+            isHot: true,
+            name: {
+                first: '张',
+                last: '三'
+            }
+        },
+        computed: {
+            weather(){
+                return this.isHot ? '寒冷' : '炎热'
+            },
+            fullName(){
+                return this.name.first === '张' ? '张三' : '李四'
+            }
+        },
+        // 监视属性的第一种方式
+        // 这种方式适用于已经确定好了要监视那些属性
+        watch: {
+            // 这里是简写了，完整的命名应该是'isHot'
+            isHot: {
+                immediate: true, // 初始化时就调用handler
+                // 当监视到属性发生变化时，触发handler
+                handler(newValue,oldValue){
+                    console.log('isHot被修改了',newValue,oldValue)
+                }
+            },
+            // 假如是想监视多级结构中某个属性的变化，必须写成完整的格式
+            // 'name.first': {
+            //     handler(newValue,oldValue){
+            //         console.log('name.first被修改了',newValue,oldValue)
+            //     }
+            // },
+            /// 当只需要handler时，可以简写成这个样子
+            'name.first'(newValue,oldValue) {
+                console.log('name.first被修改了',newValue,oldValue)
+            },
+            // 监视多级结构中所有属性的变化
+            name: {
+                deep: true, // 开始深度监视
+                handler(){
+                    console.log('name被修改了')
+                }
+            }
+        }
+    })
+
+    // 监视属性的第二种形式
+    // 完整版
+    // vm.$watch('isHot', {
+    //     immediate: true, // 初始化时就调用handler
+    //     // 当监视到属性发生变化时，触发handler
+    //     handler(newValue,oldValue){
+    //         console.log('isHot被修改了',newValue,oldValue)
+    //     }
+    // })
+
+    // 简写版
+    // vm.$watch('isHot', function(newValue,oldValue) {
+    //         console.log('isHot被修改了',newValue,oldValue)
+    // })
+</script>
+</body>
+</html>
