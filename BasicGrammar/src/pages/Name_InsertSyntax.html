@@ -8,9 +8,10 @@
 <body>
 <div id="root">
     <label>
-        姓：<input type="text" v-model="firstName"> <br/><br/>
-        名：<input type="text" v-model="lastName"> <br/><br/>
-        全名：<span>{{firstName}}-{{lastName}}</span>
+        姓：<input type="text" v-model="firstName"><br/><br/>
+        名：<input type="text" v-model="lastName"><br/><br/>
+        全名（插值语法）：<span>{{firstName}}-{{lastName}}</span><br/><br/>
+        全名(methods)：<span>{{fullName()}}</span>
     </label>
 </div>
 </body>
@@ -23,6 +24,11 @@
         data:{
             firstName:'张',
             lastName:'三'
+        },
+        methods: {
+            fullName() {
+                return this.firstName + '-' + this.lastName
+            }
         }
     })
 </script>
