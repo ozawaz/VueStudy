@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符</title>
+    <script src="../js/vue.js"></script>
+
+    <style>
+        *{
+            margin-top: 20px;
+        }
+        .demo1{
+            height: 50px;
+            background-color: skyblue;
+        }
+        .list{
+            width: 200px;
+            height: 200px;
+            background-color: peru;
+            overflow: auto;
+        }
+        li{
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Vue事件的修饰符总共有六种：
+            1.prevent：阻止事件的默认行为发生(常用)
+            2.stop: 阻止冒泡事件(常用)
+            3.once: 让事件只触发一次(常用)
+            4.capture: 让事件在捕获阶段就执行(不常用)
+            5.self: 只有event.target是当前的操作元素才执行
+            6.passive: 立即执行事件的默认行为，无需等待事件回调完毕-->
+    <div id="root">
+        <h1>Hello, {{name}}</h1>
+        <!-- prevent：阻止事件的默认行为发生(常用) -->
+        <a href="https://www.baidu.com" @click.prevent="showInfo">点我立马畅游网站</a>
+
+        <!-- stop: 阻止冒泡事件(常用) -->
+        <div class="demo1" @click="showInfo">
+            <button @click.stop="showInfo">点我提示信息</button>
+            <!-- 修饰符可以连续写 -->
+             <a href="https://www.baidu.com" @click.prevent.stop="showInfo">点我提示信息</a>
+        </div>
+
+        <!-- once: 让事件只触发一次(常用) -->
+        <button @click.once="showInfo">点我提示信息</button>
+
+        <!-- capture: 让事件在捕获阶段就执行(不常用) -->
+        <div class="demo1" @click.capture="showInfo2(1)">
+            <button @click="showInfo2(2)">点我提示信息</button>
+        </div>
+
+        <!-- self: 只有event.target是当前的操作元素才执行 -->
+        <div class="demo1" @click.self="showInfo2(1)">
+            <button @click="showInfo2(2)">点我提示信息</button>
+        </div>
+
+        <!-- passive: 立即执行事件的默认行为，无需等待事件回调完毕 -->
+        <ul class="list" @wheel.passive="demo">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
+
+    const vm = new Vue({
+        el: '#root',
+        data() {
+            return {
+                name: 'Vue'
+            }
+        },
+        methods: {
+            showInfo(e) {
+                console.log(e.target) // 获取事件对象
+                alert('同学你好！')
+            },
+            showInfo2(number) {
+                console.log(number)
+            },
+            demo() {
+                for (let i = 0; i < 5000; i++) {
+                    console.log('#')
+                }
+                console.log('累坏了')
+            }
+        }
+    })
+</script>
+</html>
