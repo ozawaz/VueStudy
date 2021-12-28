@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="../../js/vue.js"></script>
+    <script src="../../js/dayjs.min.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 方法 -->
+        <h2>当前时间为{{getDate()}}</h2>
+        <!-- 计算属性 -->
+        <h2>格式化之后的时间为{{frmTime}}</h2>
+        <!-- 过滤器 -->
+        <h2>使用过滤器{{time | timeFormat}}</h2>
+        <!-- 过滤器(传参) -->
+        <h2>使用多个过滤器{{time | timeFormat('YYYY年MM月DD日 HH:mm:ss') | mySlice}}</h2>
+    </div>
+    <div id="root2">
+        <h2>原数据: {{msg}}</h2>
+        <h2>{{msg | mySlice}}</h2>
+    </div>
+</body>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
+
+    // 全局过滤器
+    Vue.filter('mySlice', function (value){
+        return value.slice(5, 11)
+    })
+
+    new Vue({
+        el: '#root',
+        data: {
+            time: Date.now()
+        },
+        methods: {
+            // 获取当前日期
+            getDate() {
+                return dayjs(this.time).format('YYYY年MM月DD日');
+            }
+        },
+        computed: {
+            frmTime() {
+                return dayjs(this.time)
+                    // .startOf('day') // 起始点，假如是year则是1月1日
+                    // .add(1, 'day') // 自定义天
+                    // .set('year', 2018) // 自定义年份
+                    .format('YYYY年MM月DD日 HH:mm:ss');
+            }
+        },
+        filters: {
+            // 局部过滤器
+            timeFormat(value, str='YYYY年MM月DD日') {
+                return dayjs(value).format(str);
+            },
+            // mySlice(value) {
+            //     return value.slice(5, 11)
+            // }
+        }
+    })
+
+    new Vue({
+        el: '#root2',
+        data: {
+            msg: '你好，Vue'
+        },
+        methods: {
+        },
+    })
+</script>
+</html>
