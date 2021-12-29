@@ -6,9 +6,11 @@
     <script src="../js/vue.js"></script>
 </head>
 <body>
-<div id="root">
-    <button @click="bye">点我有资源</button>
-</div>
+    <div id="root">
+        <h2>n: {{n}}</h2>
+        <button @click="add">点我n+1</button>
+        <button @click="bye">点我有资源</button>
+    </div>
 </body>
 <script type="text/javascript">
     Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
@@ -16,12 +18,18 @@
     new Vue({
         el: '#root',
         data: {
+            n: 1,
         },
         methods: {
+            add() {
+                console.log('调用add')
+              this.n++
+            },
             bye() {
+                console.log('ggggggg')
                 // 自行启动销毁
                 this.$destroy()
-            }
+            },
         },
         // 在vue的数据代理，数据监测还未开始，此时无法通过vm访问data中的数据和methods中的方法
         beforeCreate() {
@@ -31,21 +39,30 @@
         created() {
             console.log('created')
         },
+        // 在虚拟DOM还未变成真实DOM，此时对DOM的操作都是无效的，因为vue会在稍后将自己的虚拟DOM转换成真实并插入页面
         beforeMount() {
             console.log('beforeMount')
         },
+        // 已经转换成真实DOM了，但是尽量避免此时对DOM进行操作，毕竟刚放好，就直接操作，等于脱裤子放屁
+        // 此时可以做一下开启定时器、发送网络请求、订阅消息、订阅自定义事件等初始化操作
         mounted() {
             console.log('mounted')
         },
+        // 已经将数据更新，但是还未同步到页面，即页面和数据是不同步的
         beforeUpdate() {
             console.log('beforeUpdate')
         },
+        // 页面和数据都是新的，且保持同步
         updated() {
             console.log('updated')
         },
+        // 此时vm的所有操作都可以，但是不建议做了。就如同一个人要g了，还动弹啥，交代后事就行了
+        // 此时应关闭定时器、取消订阅消息、解绑自定义事件等收尾操作
         beforeDestroy() {
             console.log('beforeDestroy')
         },
+        // 已经在棺材板里面了
+        // 当然你会发现此时的add还是能做，是因为此时的方法已经存在于真实dom里面了
         destroyed() {
             console.log('destroyed')
         }
