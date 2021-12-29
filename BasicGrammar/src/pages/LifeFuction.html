@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期函数</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <button @click="bye">点我有资源</button>
+</div>
+</body>
+<script type="text/javascript">
+    Vue.config.productionTip = false //阻止 vue 在启动时生成生产提示。
+
+    new Vue({
+        el: '#root',
+        data: {
+        },
+        methods: {
+            bye() {
+                // 自行启动销毁
+                this.$destroy()
+            }
+        },
+        // 在vue的数据代理，数据监测还未开始，此时无法通过vm访问data中的数据和methods中的方法
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+        // 上述的完成版
+        created() {
+            console.log('created')
+        },
+        beforeMount() {
+            console.log('beforeMount')
+        },
+        mounted() {
+            console.log('mounted')
+        },
+        beforeUpdate() {
+            console.log('beforeUpdate')
+        },
+        updated() {
+            console.log('updated')
+        },
+        beforeDestroy() {
+            console.log('beforeDestroy')
+        },
+        destroyed() {
+            console.log('destroyed')
+        }
+    })
+</script>
+</html>
