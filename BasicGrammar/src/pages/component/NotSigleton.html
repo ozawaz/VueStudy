@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非单组件</title>
+    <script src="../../js/vue.js"></script>
+</head>
+<body>
+<!--
+    Vue使用组件三大步骤：
+        ①: 定义组件
+        ②: 注册组件
+        ③: 使用组件(创建组件标签)
+    1. 如何定义一个组件:
+        Vue.extend(options), 这个options和new Vue(options)传入的差不多，但是有一下几点区别：
+            ①: el不要写，因为毕竟是一个组件，肯定要由vm来带领它们决定去哪;
+            ②: data需要写成函数式，这样做是为了避免出现组件被复用时，出现数据依赖关系
+    2. 如何注册组件:
+        在components中注册(局部注册)，建议组件和注册的名称一样，这样就可以只需要写一个简写名字可以了
+        全局注册就是vue.component('组件名', 组件)
+ -->
+    <div id="root">
+        <h2>{{msg}}</h2>
+        <hr>
+        <hello></hello>
+        <hr>
+        <school></school>
+        <hr>
+        <global></global>
+        <hr>
+    </div>
+    <div id="root2">
+        <h1>{{msg}}</h1>
+        <hr>
+        <global></global>
+    </div>
+</body>
+<script type="text/javascript">
+    const hello = Vue.extend({
+        template: `
+            <div>
+              <h2>{{greet}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                greet: 'Hello Vue'
+            }
+        }
+    })
+
+    const school = Vue.extend({
+        template: `
+            <div>
+              <h2>学校名称：{{name}}，地址：{{address}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                name: '斯坦福大学',
+                address: '地球'
+            }
+        }
+    })
+
+    const global = Vue.extend({
+        template: `
+            <div>
+              <h2>{{whole}}</h2>
+            </div>
+        `,
+        data() {
+            return {
+                whole: '我就是全局组件'
+            }
+        }
+    })
+
+    // 注册全局组件
+    Vue .component('global', global)
+
+    new Vue({
+        el: '#root',
+        data: {
+            msg: '下面就是非单组件'
+        },
+        components: {
+            hello,
+            school
+        }
+    })
+
+    new Vue({
+        el: '#root2',
+        data: {
+            msg: '我是老二'
+        }
+    })
+</script>
+</html>
