@@ -3,7 +3,7 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <Top :addTodo="addTodo"/>
-        <List :todoList="todoList"/>
+        <List :todoList="todoList" :changeCheck="changeCheck" :checkDelete="checkDelete"/>
         <bottom/>
       </div>
     </div>
@@ -33,6 +33,18 @@ export default {
     // 添加一个代办事项
     addTodo(todo) {
       this.todoList.unshift(todo)
+    },
+    // 改变复选框的 勾选状态
+    changeCheck(id) {
+      this.todoList.forEach(todo => {
+        if (todo.id === id) {
+          todo.done = !todo.done
+        }
+      })
+    },
+    // 删除一个组件
+    checkDelete(id) {
+      this.todoList = this.todoList.filter(todo => todo.id !== id)
     }
   }
 }
