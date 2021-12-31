@@ -12,13 +12,10 @@ export default {
   components: {
     Item
   },
+  props: ['todoList'],
   data() {
     return {
-      todoList: [
-        {id: '001', title: '开源', done: true},
-        {id: '002', title: '敲代码', done: false},
-        {id: '003', title: '共享', done: true},
-      ]
+
     }
   }
 }

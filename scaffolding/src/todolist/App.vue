@@ -2,8 +2,8 @@
   <div id="root">
     <div class="todo-container">
       <div class="todo-wrap">
-        <Top/>
-        <List/>
+        <Top :addTodo="addTodo"/>
+        <List :todoList="todoList"/>
         <bottom/>
       </div>
     </div>
@@ -22,6 +22,17 @@ export default {
   },
   data() {
     return {
+      todoList: [
+        {id: '001', title: '开源', done: true},
+        {id: '002', title: '敲代码', done: false},
+        {id: '003', title: '共享', done: true},
+      ]
+    }
+  },
+  methods: {
+    // 添加一个代办事项
+    addTodo(todo) {
+      this.todoList.unshift(todo)
     }
   }
 }
