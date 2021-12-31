@@ -3,8 +3,12 @@
     <div class="todo-container">
       <div class="todo-wrap">
         <Top :addTodo="addTodo"/>
-        <List :todoList="todoList" :changeCheck="changeCheck" :checkDelete="checkDelete"/>
-        <bottom :todoList="todoList"/>
+        <List
+            :todoList="todoList"
+            :changeCheck="changeCheck"
+            :checkDelete="checkDelete"
+        />
+        <bottom :todoList="todoList" :deleteDoneCheck="deleteDoneCheck" :changeAllDone="changeAllDone"/>
       </div>
     </div>
   </div>
@@ -45,6 +49,16 @@ export default {
     // 删除一个组件
     checkDelete(id) {
       this.todoList = this.todoList.filter(todo => todo.id !== id)
+    },
+    // 删除已选代办
+    deleteDoneCheck() {
+      this.todoList = this.todoList.filter(todo => !todo.done)
+    },
+    // 将所有代办变成已选
+    changeAllDone(done) {
+      this.todoList.forEach(todo => {
+          todo.done = done
+      })
     }
   }
 }
