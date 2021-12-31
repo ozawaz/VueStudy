@@ -26,11 +26,7 @@ export default {
   },
   data() {
     return {
-      todoList: [
-        {id: '001', title: '开源', done: true},
-        {id: '002', title: '敲代码', done: false},
-        {id: '003', title: '共享', done: true},
-      ]
+      todoList: JSON.parse(localStorage.getItem('todoList')) || [], // 本地取不到值时是为null，就直接给个空数组
     }
   },
   methods: {
@@ -59,6 +55,14 @@ export default {
       this.todoList.forEach(todo => {
           todo.done = done
       })
+    }
+  },
+  watch: {
+    todoList: {
+      deep: true, // 开启深度监视
+      handler(value) {
+        localStorage.setItem('todoList', JSON.stringify(value))
+      }
     }
   }
 }
