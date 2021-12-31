@@ -1,9 +1,6 @@
 <template>
   <ul class="todo-main">
-    <Item/>
-    <Item/>
-    <Item/>
-    <Item/>
+    <Item v-for="todo in todoList" :key="todo.id" :todo="todo"/>
   </ul>
 </template>
 
@@ -14,6 +11,15 @@ export default {
   name: "List",
   components: {
     Item
+  },
+  data() {
+    return {
+      todoList: [
+        {id: '001', title: '开源', done: true},
+        {id: '002', title: '敲代码', done: false},
+        {id: '003', title: '共享', done: true},
+      ]
+    }
   }
 }
 </script>
